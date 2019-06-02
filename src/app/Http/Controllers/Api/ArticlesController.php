@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Article;
 use Illuminate\Support\Facades\Log;
-use cebe\markdown\Markdown as Markdown;
 use App\Http\Controllers\Controller;
 
 class ArticlesController extends Controller
@@ -17,8 +16,13 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Article::get(['title', 'body'])->toJson();
-        return $articles;
+        $articles = Article::get(['title', 'body']);
+        $data = [];
+        foreach ($articles as $idx => $article) {
+            $data[$idx]['title'] = $article->title;
+            $data[$idx]['body'] = $article->short_mark_body;
+        }
+        return $data;
     }
 
     /**
