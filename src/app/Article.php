@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ArticleImage;
 use cebe\markdown\GithubMarkdown as Markdown;
 
 class Article extends Model
@@ -33,5 +34,13 @@ class Article extends Model
     {
         $parser = new Markdown();
         return $parser->parse($body);
+    }
+
+    /**
+     * articleImage hasmany設定
+     */
+    public function article_images()
+    {
+        return $this->hasMany(ArticleImage::class);
     }
 }
