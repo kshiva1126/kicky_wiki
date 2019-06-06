@@ -35,12 +35,6 @@ services:
     ports:
       - ${MYSQL_PORT}:3306
 
-  node:
-    image: node:11-alpine
-    volumes:
-      - ${PROJECT_PATH}:/work
-    working_dir: /work
-
   mail:
     image: mailhog/mailhog
     ports:
