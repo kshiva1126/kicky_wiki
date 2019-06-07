@@ -19,8 +19,9 @@ class ArticlesController extends Controller
         $articles = Article::all();
         $data = [];
         foreach ($articles as $idx => $article) {
+            $data[$idx]['id'] = $article->id;
             $data[$idx]['title'] = $article->title;
-            $data[$idx]['body'] = $article->short_mark_body;
+            $data[$idx]['body'] = $article->short_body;
             // 一覧画面には必要ない情報かも？
             foreach ($article->article_images as $image) {
                 $data[$idx]['image'][] = $image->image_path;
