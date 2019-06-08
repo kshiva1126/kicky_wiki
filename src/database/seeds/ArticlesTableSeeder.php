@@ -11,19 +11,8 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('articles')->insert([
-            [
-            'title' => 'title1',
-            'body' => 'body1'
-            ],
-            [
-            'title' => 'title2',
-            'body' => 'body2'
-            ],
-            [
-            'title' => 'title3',
-            'body' => 'body3'
-            ],
-        ]);
+        DB::table('articles')->delete();
+
+        factory(App\Article::class, 10)->create();
     }
 }
