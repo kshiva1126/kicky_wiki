@@ -53,7 +53,8 @@ class ArticlesController extends Controller
      */
     public function show($id)
     {
-        //
+        $article = Article::find($id);
+        return $article;
     }
 
     /**
@@ -65,7 +66,11 @@ class ArticlesController extends Controller
      */
     public function update(ArticleRequest $request, $id)
     {
-        //
+        $article = Article::find($id);
+        $article->title = $request->title;
+        $article->body = $request->body;
+        $article->save();
+        return redirect("api/articles/{$id}");
     }
 
     /**
