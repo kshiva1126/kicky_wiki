@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Article;
+use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
@@ -33,12 +33,16 @@ class ArticlesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ArticleRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-        //
+        $article = new Article;
+        $article->title = $request->title;
+        $article->body = $request->body;
+        $article->save();
+        return redirect('api/articles');
     }
 
     /**
@@ -49,19 +53,24 @@ class ArticlesController extends Controller
      */
     public function show($id)
     {
-        //
+        $article = Article::find($id);
+        return $article;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ArticleRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, $id)
     {
-        //
+        $article = Article::find($id);
+        $article->title = $request->title;
+        $article->body = $request->body;
+        $article->save();
+        return redirect("api/articles/{$id}");
     }
 
     /**
