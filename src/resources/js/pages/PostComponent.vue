@@ -1,7 +1,46 @@
 <template>
-  <h1>Post Page</h1>
+  <div class="container">
+    <div class="article__form">
+      <input type="text" class="article__title" v-model="article.title">
+      <editor v-model="article.body" :height="height"/>
+    </div>
+
+    <div class="article__button" @click="submit()">投稿する</div>
+  </div>
 </template>
 
 <script>
-export default {};
+import "tui-editor/dist/tui-editor.css";
+import "tui-editor/dist/tui-editor-contents.css";
+import "codemirror/lib/codemirror.css";
+import { Editor } from "@toast-ui/vue-editor";
+
+export default {
+  components: {
+    editor: Editor
+  },
+  data() {
+    return {
+      article: {
+        title: "",
+        body: ""
+      },
+      height: "900px"
+    };
+  },
+  methods: {
+    async submit() {
+      const formData = new FormData();
+
+      formData.append("title", this.article.title);
+      formData.append("body", this.article.body);
+
+      console.log(formData);
+
+      const response = await axios.post("/api/articles", formData);
+
+      this.$router.push("/");
+    }
+  }
+};
 </script>
