@@ -60,7 +60,11 @@ class ArticlesController extends Controller
     public function show($id)
     {
         $article = Article::find($id);
-        return $article;
+        $data = [];
+        $data['id'] = $article->id;
+        $data['title'] = $article->title;
+        $data['body'] = $article->mark_body;
+        return $data;
     }
 
     /**
