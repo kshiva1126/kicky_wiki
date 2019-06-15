@@ -21,7 +21,7 @@ class Article extends Model
         // HTML および PHP タグを取り除く
         $short_body = strip_tags($this->parse($short_body));
         // 改行コードを取り除く
-        return str_replace(['\r', '\n'], $short_body, '');
+        return str_replace(["\r", "\n"], '', $short_body);
     }
 
     /**
