@@ -2,6 +2,7 @@ node_modules
 public/mix-manifest.json
 public/css/*
 public/js/*
+public/images/*
 /public/hot
 /public/storage
 /storage/*.key
