@@ -8,23 +8,23 @@ import Detail from './pages/DetailComponent.vue';
 Vue.use(VueRouter);
 
 const routes = [
-    {
-        path: '/',
-        component: Top
-    },
-    {
-        path: '/post',
-        component: Post
-    },
-    {
-        path: '/detail',
-        component: Detail
-    }
+  {
+    path: '/',
+    component: Top
+  },
+  {
+    path: '/post',
+    component: Post
+  },
+  {
+    path: '/detail/:id',
+    component: Detail
+  }
 ];
 
 const router = new VueRouter({
-    mode: 'history',
-    routes
+  mode: 'history',
+  routes
 });
 
 export default router;
