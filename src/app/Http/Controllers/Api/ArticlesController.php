@@ -39,11 +39,6 @@ class ArticlesController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        $image = Image::make($request->image);
-        $fileName = str_random(8) . date('YmdHis') . '.jpg';
-        $filePath = public_path('/img/');
-        $image->save($filePath . $fileName);
-
         $article = new Article;
         $article->title = $request->title;
         $article->body = $request->body;
@@ -92,5 +87,23 @@ class ArticlesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Upload an image.
+     *
+     * @param ArticleRequest $request
+     * @return void
+     */
+    public function upload(ArticleRequest $request)
+    {
+        $image = Image::make($request->image);
+        $fileName = str_random(8) . date('YmdHis') . '.jpg';
+        $filePath = public_path('/img/');
+        $image->save($filePath . $fileName);
+        return response()->json([
+            'success'  => 'OK',
+            'filePath' => $filePath,
+        ]);
     }
 }
