@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['api']], function() {
     Route::resource('articles', 'Api\ArticlesController', ['except' => ['create', 'edit']]);
 });
+
+Route::get('/articles/search/{freeword}', 'Api\ArticlesController@search');
