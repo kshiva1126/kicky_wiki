@@ -13,11 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::group(['middleware' => ['api']], function() {
-    Route::resource('articles', 'Api\ArticlesController', ['except' => ['create', 'edit']]);
-    Route::get('articles/search/{freeword}', 'Api\ArticlesController@search');
+// Route::group(['middleware' => ['api']], function() {
+//     Route::resource('articles', 'Api\ArticlesController', ['except' => ['create', 'edit']]);
+// });
+
+
+Route::group(['prefix' => 'articles'], function () {
+    // 記事一覧取得
+    Route::get('/', 'Api\ArticlesController@index');
+    // 記事投稿
+    Route::post('/', 'Api\ArticlesController@store');
+    // 記事詳細取得
+    Route::get('/{article}', 'Api\ArticlesController@show');
+    // 記事更新
+    Route::put('/{article}', 'Api\ArticlesController@update');
+    // 記事検索結果取得
+    Route::get('/search/{freeword}', 'Api\ArticlesController@search');
 });
