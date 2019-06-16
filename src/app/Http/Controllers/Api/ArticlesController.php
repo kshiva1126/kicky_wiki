@@ -23,10 +23,6 @@ class ArticlesController extends Controller
             $data[$idx]['id'] = $article->id;
             $data[$idx]['title'] = $article->title;
             $data[$idx]['body'] = $article->short_body;
-            // 一覧画面には必要ない情報かも？
-            foreach ($article->article_images as $image) {
-                $data[$idx]['image'][] = $image->image_path;
-            }
         }
         return $data;
     }
@@ -90,6 +86,7 @@ class ArticlesController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * Upload an image.
      *
      * @param ArticleRequest $request
@@ -105,5 +102,22 @@ class ArticlesController extends Controller
             'success'  => 'OK',
             'filePath' => $filePath,
         ]);
+=======
+     * Search the freeword from body.
+     *
+     * @param  string $freeword
+     * @return void
+     */
+    public function search($freeword)
+    {
+        $articles = Article::freeword($freeword)->get();
+        $data = [];
+        foreach ($articles as $idx => $article) {
+            $data[$idx]['id'] = $article->id;
+            $data[$idx]['title'] = $article->title;
+            $data[$idx]['body'] = $article->short_body;
+        }
+        return $data;
+>>>>>>> develop
     }
 }
