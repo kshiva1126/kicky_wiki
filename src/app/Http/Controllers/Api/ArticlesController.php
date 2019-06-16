@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Article;
+use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 
@@ -86,23 +86,6 @@ class ArticlesController extends Controller
     }
 
     /**
-<<<<<<< HEAD
-     * Upload an image.
-     *
-     * @param ArticleRequest $request
-     * @return void
-     */
-    public function upload(ArticleRequest $request)
-    {
-        $image = Image::make($request->image);
-        $fileName = str_random(8) . date('YmdHis') . '.jpg';
-        $filePath = public_path('/img/');
-        $image->save($filePath . $fileName);
-        return response()->json([
-            'success'  => 'OK',
-            'filePath' => $filePath,
-        ]);
-=======
      * Search the freeword from body.
      *
      * @param  string $freeword
@@ -118,6 +101,30 @@ class ArticlesController extends Controller
             $data[$idx]['body'] = $article->short_body;
         }
         return $data;
->>>>>>> develop
+    }
+
+    /**
+     * Upload an image.
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file'  => [
+                'file',
+                'image',
+                'mimes:jpeg, png',
+            ],
+        ]);
+        
+        $image = Image::make($request->image);
+        $fileName = '/images/' . str_random(32) . '.png';
+        $filePath = public_path();
+        $image->save($filePath . $fileName);
+        return response()->json([
+            'fileName' => $fileName,
+        ]);
     }
 }

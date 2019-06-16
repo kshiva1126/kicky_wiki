@@ -24,6 +24,6 @@ Route::group(['prefix' => 'articles'], function () {
     Route::put('/{id}', 'Api\ArticlesController@update');
     // 記事検索結果取得
     Route::get('/search/{freeword}', 'Api\ArticlesController@search');
+    // 画像アップロード
+    Route::post('/image-upload', 'Api\ArticlesController@upload');
 });
-
-Route::post('/upload', 'Api\ArticlesController@upload');

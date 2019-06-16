@@ -28,11 +28,6 @@ class ArticleRequest extends FormRequest
         return [
             'title' => 'required',
             'body'  => 'required',
-            'file'  => [
-                'file',
-                'image',
-                'mimes:jpeg, png',
-            ],
         ];
     }
 

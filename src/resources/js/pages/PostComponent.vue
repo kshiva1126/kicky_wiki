@@ -2,7 +2,7 @@
   <div class="container">
     <div class="article__form">
       <input type="text" class="article__title" v-model="article.title">
-      <editor v-model="article.body" :height="height"/>
+      <editor v-model="article.body" :height="height" :options="editorOptions"/>
     </div>
 
     <div class="article__button" @click="submit()">投稿する</div>
@@ -25,7 +25,27 @@ export default {
         title: "",
         body: ""
       },
-      height: "900px"
+      height: "900px",
+      editorOptions: {
+        hooks: {
+          addImageBlobHook: async function(blob, callback) {
+            const formData = new FormData();
+            formData.append('image', blob);
+            const config = {
+              header: {
+                'Content-Type': 'multipart/form-data'
+              }
+            };
+
+            try {
+              const response = await axios.post('api/articles/image-upload', formData, config);
+              callback(response.data.fileName, '');
+            } catch(err) {
+              alert('画像アップロードに失敗しました', err);
+            }
+          },
+        }
+      }
     };
   },
   methods: {
