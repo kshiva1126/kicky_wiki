@@ -19,9 +19,9 @@ Route::group(['prefix' => 'articles'], function () {
     // 記事投稿
     Route::post('/', 'Api\ArticlesController@store');
     // 記事詳細取得
-    Route::get('/{article}', 'Api\ArticlesController@show');
+    Route::get('/{id}', 'Api\ArticlesController@show');
     // 記事更新
-    Route::put('/{article}', 'Api\ArticlesController@update');
+    Route::put('/{id}', 'Api\ArticlesController@update');
     // 記事検索結果取得
     Route::get('/search/{freeword}', 'Api\ArticlesController@search');
 });
