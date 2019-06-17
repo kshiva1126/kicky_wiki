@@ -37,9 +37,13 @@ export default {
 
       console.log(formData);
 
-      const response = await axios.post("/api/articles", formData);
-
-      this.$router.push("/");
+      try {
+        const response = await axios.post("/api/articles", formData);
+        console.log(response);
+        this.$router.push(`/detail/${response.data.Id}`);
+      } catch(err) {
+        alert('投稿に失敗しました。', err);
+      }
     }
   }
 };

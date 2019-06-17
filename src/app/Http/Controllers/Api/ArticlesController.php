@@ -29,8 +29,8 @@ class ArticlesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\ArticleRequest $request
-     * @return \Illuminate\Http\Response
+     * @param ArticleRequest $request
+     * @return void
      */
     public function store(ArticleRequest $request)
     {
@@ -38,7 +38,10 @@ class ArticlesController extends Controller
         $article->title = $request->title;
         $article->body = $request->body;
         $article->save();
-        return redirect('api/articles');
+
+        return response()->json([
+            'Id' => $article->id,
+        ]);
     }
 
     /**
