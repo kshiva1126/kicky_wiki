@@ -28,7 +28,7 @@ export default {
       height: "900px",
       editorOptions: {
         hooks: {
-          addImageBlobHook: async function(blob, callback) {
+          addImageBlobHook: async (blob, callback) => {
             const formData = new FormData();
             formData.append('image', blob);
             const config = {
