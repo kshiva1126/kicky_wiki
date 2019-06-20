@@ -46,4 +46,12 @@ class Article extends Model
     {
         $query->whereRaw('match(`body`) against (? IN BOOLEAN MODE)', [$freeword]);
     }
+
+    /**
+     * articleImage hasmany設定
+     */
+    public function article_images()
+    {
+        return $this->hasMany(ArticleImage::class);
+    }
 }

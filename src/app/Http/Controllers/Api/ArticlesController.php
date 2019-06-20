@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Article;
+use App\ArticleImage;
 use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
+use Log;
 
 class ArticlesController extends Controller
 {
+    public $tmp_dir = '/tmp/';
+
+    public $images_dir = '/images/';
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +31,7 @@ class ArticlesController extends Controller
         }
         return $data;
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -35,11 +40,60 @@ class ArticlesController extends Controller
      */
     public function store(ArticleRequest $request)
     {
+        Log::debug($request->all());
+        Log::debug('start to regist article');
         $article = new Article;
+        list($body, $images) = $this->processBodyAndImages($request->body, explode(',', rtrim($request->images, ',')));
         $article->title = $request->title;
-        $article->body = $request->body;
+        $article->body = $body;
         $article->save();
+        Log::debug('end to regist article');
+
+        Log::debug('start to regist article_image');
+        $article_id = $article->id;
+        foreach ($images as $image) {
+            ArticleImage::create([
+                'article_id' => $article_id,
+                'image_path' => $image,
+            ]);
+        }
+        Log::debug('end to regist article_image');
+
         return redirect('api/articles');
+    }
+
+
+    private function processBodyAndImages($body, $images)
+    {
+        Log::debug('ArticleController@processBodyAndImages() start');
+        $processed_body = '';
+        $genuine_images = [];
+        if (!is_array($images) || empty($images)) {
+            $processed_body = $body;
+            Log::debug('no image');
+            return [$processed_body, $genuine_images];
+        }
+        foreach ($images as $image) {
+            if (strpos($body, $image) !== false) {
+                $image_name = str_replace($this->tmp_dir, '', $image);
+                $this->mvImagesFromTmpToImagesDir($image_name);
+                $body = str_replace($image, "{$this->images_dir}{$image_name}", $body);
+                $genuine_images[] = "{$this->images_dir}{$image_name}";
+            }
+        }
+        $processed_body = $body;
+        Log::debug('ArticleController@processBodyAndImages() end');
+        return [$processed_body, $genuine_images];
+    }
+
+    private function mvImagesFromTmpToImagesDir($image_name)
+    {
+        Log::debug('ArticleController@mvImagesFromTmpToImagesDir() start');
+        $tmp = public_path() . "{$this->tmp_dir}{$image_name}";
+        $perm = public_path() . "{$this->images_dir}{$image_name}";
+        $command = sprintf('mv %s %s', $tmp, $perm);
+        exec($command);
+        Log::debug('ArticleController@mvImagesFromTmpToImagesDir() end');
     }
 
     /**
@@ -120,7 +174,7 @@ class ArticlesController extends Controller
         ]);
         
         $image = Image::make($request->image);
-        $fileName = '/images/' . str_random(32) . '.png';
+        $fileName = $this->tmp_dir . str_random(32) . '.png';
         $filePath = public_path();
         $image->save($filePath . $fileName);
         return response()->json([

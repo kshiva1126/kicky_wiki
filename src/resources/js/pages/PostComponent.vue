@@ -23,7 +23,8 @@ export default {
     return {
       article: {
         title: "",
-        body: ""
+        body: "",
+        images: [],
       },
       height: "900px",
       editorOptions: {
@@ -40,6 +41,7 @@ export default {
             try {
               const response = await axios.post('api/articles/image-upload', formData, config);
               callback(response.data.fileName, '');
+              this.article.images.push(response.data.fileName);
             } catch(err) {
               alert('画像アップロードに失敗しました', err);
             }
@@ -54,8 +56,7 @@ export default {
 
       formData.append("title", this.article.title);
       formData.append("body", this.article.body);
-
-      console.log(formData);
+      formData.append("images", this.article.images);
 
       const response = await axios.post("/api/articles", formData);
 
