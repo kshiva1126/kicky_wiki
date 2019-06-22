@@ -58,6 +58,17 @@ class ArticlesController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        return Article::find($id);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  App\Http\Requests\ArticleRequest $request
@@ -70,7 +81,9 @@ class ArticlesController extends Controller
         $article->title = $request->title;
         $article->body = $request->body;
         $article->save();
-        return redirect("api/articles/{$id}");
+        return response()->json([
+            'Id' => $article->id,
+        ]);
     }
 
     /**

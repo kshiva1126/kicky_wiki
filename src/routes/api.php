@@ -20,6 +20,8 @@ Route::group(['prefix' => 'articles'], function () {
     Route::post('/', 'Api\ArticlesController@store');
     // 記事詳細取得
     Route::get('/{id}', 'Api\ArticlesController@show');
+    // 編集用記事取得
+    Route::get('edit/{id}', 'Api\ArticlesController@edit');
     // 記事更新
     Route::put('/{id}', 'Api\ArticlesController@update');
     // 記事検索結果取得
