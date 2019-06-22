@@ -35,11 +35,8 @@ export default {
       formData.append("title", this.article.title);
       formData.append("body", this.article.body);
 
-      console.log(formData);
-
       try {
         const response = await axios.post("/api/articles", formData);
-        console.log(response);
         this.$router.push(`/detail/${response.data.Id}`);
       } catch(err) {
         alert('投稿に失敗しました。', err);
