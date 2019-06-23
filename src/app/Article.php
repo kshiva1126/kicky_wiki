@@ -42,16 +42,16 @@ class Article extends Model
         return $parser->parse($body);
     }
 
+    public function scopeFreeword($query, $freeword)
+    {
+        $query->whereRaw('match(`body`) against (? IN BOOLEAN MODE)', [$freeword]);
+    }
+
     /**
      * articleImage hasmany設定
      */
     public function article_images()
     {
         return $this->hasMany(ArticleImage::class);
-    }
-
-    public function scopeFreeword($query, $freeword)
-    {
-        $query->whereRaw('match(`body`) against (? IN BOOLEAN MODE)', [$freeword]);
     }
 }
