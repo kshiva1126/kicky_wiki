@@ -38,13 +38,14 @@ export default {
               }
             };
 
-            try {
-              const response = await axios.post('api/articles/image-upload', formData, config);
-              callback(response.data.fileName, '');
-              this.article.images.push(response.data.fileName);
-            } catch(err) {
-              alert('画像アップロードに失敗しました', err);
-            }
+            await axios.post('api/articles/image-upload', formData, config)
+              .then(response => {
+                callback(response.data.fileName, '');
+                this.article.images.push(response.data.fileName);
+              })
+              .catch(err => {
+                alert('画像アップロードに失敗しました。', err);
+              });
           },
         }
       }
@@ -58,9 +59,13 @@ export default {
       formData.append("body", this.article.body);
       formData.append("images", this.article.images);
 
-      const response = await axios.post("/api/articles", formData);
-
-      this.$router.push("/");
+      await axios.post("/api/articles", formData)
+        .then(response => {
+          this.$router.push(`/detail/${response.data.Id}`);
+        })
+        .catch(err => {
+          alert('投稿に失敗しました。', err);
+        })
     }
   }
 };
