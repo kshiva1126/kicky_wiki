@@ -42,12 +42,13 @@ export default {
       params.append("title", this.article.title);
       params.append("body", this.article.body);
 
-      try {
-        const response = await axios.put(`/api/articles/${this.$route.params.id}`, params);
-        this.$router.push(`/detail/${response.data.Id}`);
-      } catch(err) {
-        alert('編集に失敗しました。', err);
-      }
+      await axios.put(`/api/articles/${this.$route.params.id}`, params)
+        .then(response => {
+          this.$router.push(`/detail/${response.data.Id}`);
+        })
+        .catch(err => {
+          alert('編集に失敗しました。', err);
+        })
     }
   }
 };
