@@ -19,6 +19,7 @@ class CreateArticleImagesTable extends Migration
             $table->string('image_path');
             $table->timestamps();
         });
+
     }
 
     /**
