@@ -41,7 +41,7 @@ class DeleteTmpImagesCommand extends Command
         
         // public/tmp/にファイルがあるかどうか
         $tmp_images = public_path(). '/tmp/*.png';
-        if (shell_exec("test -e {$tmp_images}; echo $?") == 0) {
+        if (shell_exec("ls {$tmp_images}; echo $?") == 0) {
             $command = "rm {$tmp_images}";
             exec($command);
             $this->info('Success to delete temporary images');

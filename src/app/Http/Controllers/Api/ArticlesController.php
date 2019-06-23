@@ -35,44 +35,48 @@ class ArticlesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\ArticleRequest $request
-     * @return \Illuminate\Http\Response
+     * @param ArticleRequest $request
+     * @return string
      */
     public function store(ArticleRequest $request)
     {
         Log::debug($request->all());
         Log::debug('start to regist article');
         $article = new Article;
-        list($body, $images) = $this->processBodyAndImages($request->body, explode(',', rtrim($request->images, ',')));
+        if ($request->images) {
+            list($body, $images) = $this->processBodyAndImages($request->body, explode(',', rtrim($request->images, ',')));
+        } else {
+            $images = [];
+            $body = $request->body;
+        }
         $article->title = $request->title;
         $article->body = $body;
         $article->save();
         Log::debug('end to regist article');
 
-        Log::debug('start to regist article_image');
-        $article_id = $article->id;
-        foreach ($images as $image) {
-            ArticleImage::create([
-                'article_id' => $article_id,
-                'image_path' => $image,
-            ]);
+        if ($images) {
+            Log::debug('start to regist article_image');
+            $article_id = $article->id;
+            foreach ($images as $image) {
+                ArticleImage::create([
+                    'article_id' => $article_id,
+                    'image_path' => $image,
+                ]);
+            }
+            Log::debug('end to regist article_image');
         }
-        Log::debug('end to regist article_image');
 
-        return redirect('api/articles');
+        return response()->json([
+            'Id' => $article->id,
+        ]);
     }
 
 
-    private function processBodyAndImages($body, $images)
+    private function processBodyAndImages($body, $images = [])
     {
         Log::debug('ArticleController@processBodyAndImages() start');
         $processed_body = '';
         $genuine_images = [];
-        if (!is_array($images) || empty($images)) {
-            $processed_body = $body;
-            Log::debug('no image');
-            return [$processed_body, $genuine_images];
-        }
         foreach ($images as $image) {
             if (strpos($body, $image) !== false) {
                 $image_name = str_replace($this->tmp_dir, '', $image);
