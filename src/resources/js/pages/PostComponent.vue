@@ -14,8 +14,10 @@ import "tui-editor/dist/tui-editor.css";
 import "tui-editor/dist/tui-editor-contents.css";
 import "codemirror/lib/codemirror.css";
 import { Editor } from "@toast-ui/vue-editor";
+import util from '../utils/util'
 
 export default {
+  mixins: [util],
   components: {
     editor: Editor
   },
@@ -29,24 +31,7 @@ export default {
       height: "900px",
       editorOptions: {
         hooks: {
-          addImageBlobHook: async (blob, callback) => {
-            const formData = new FormData();
-            formData.append('image', blob);
-            const config = {
-              header: {
-                'Content-Type': 'multipart/form-data'
-              }
-            };
-
-            await axios.post('api/articles/image-upload', formData, config)
-              .then(response => {
-                callback(response.data.fileName, '');
-                this.article.images.push(response.data.fileName);
-              })
-              .catch(err => {
-                alert('画像アップロードに失敗しました。', err);
-              });
-          },
+          addImageBlobHook: this.addImageBlobHook,
         }
       }
     };

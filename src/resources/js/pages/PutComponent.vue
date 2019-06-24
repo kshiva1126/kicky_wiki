@@ -2,7 +2,7 @@
   <div class="container">
     <div class="article__form">
       <input type="text" class="article__title" v-model="article.title">
-      <editor v-model="article.body" :height="height"/>
+      <editor v-model="article.body" :height="height" :options="editorOptions"/>
     </div>
 
     <div class="article__button" @click="submit()">編集する</div>
@@ -14,8 +14,10 @@ import "tui-editor/dist/tui-editor.css";
 import "tui-editor/dist/tui-editor-contents.css";
 import "codemirror/lib/codemirror.css";
 import { Editor } from "@toast-ui/vue-editor";
+import util from '../utils/util'
 
 export default {
+  mixins: [util],
   components: {
     editor: Editor
   },
@@ -23,9 +25,15 @@ export default {
     return {
       article: {
         title: "",
-        body: ""
+        body: "",
+        images: [],
       },
-      height: "900px"
+      height: "900px",
+      editorOptions: {
+        hooks: {
+          addImageBlobHook: this.addImageBlobHook
+        }
+      }
     };
   },
   created() {
@@ -34,6 +42,7 @@ export default {
       .then(res => {
         this.article = res.data;
     });
+    alert(JSON.stringify(this.$data));
   },
   methods: {
     async submit() {

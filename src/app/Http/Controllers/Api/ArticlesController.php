@@ -40,9 +40,24 @@ class ArticlesController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        Log::debug($request->all());
-        Log::debug('start to regist article');
         $article = new Article;
+        $this->registerArticleAndImage($article, $request, 'create');
+        return response()->json([
+            'Id' => $article->id,
+        ]);
+    }
+
+    /**
+     * register Article
+     *
+     * @param Article $article
+     * @param ArticleRequest $request
+     * @param string $name
+     * @return string
+     */
+    private function registerArticleAndImage(Article $article, ArticleRequest $request, string $name = 'create')
+    {
+        Log::debug("start to {$name} article");
         if ($request->images) {
             list($body, $images) = $this->processBodyAndImages($request->body, explode(',', rtrim($request->images, ',')));
         } else {
@@ -52,10 +67,10 @@ class ArticlesController extends Controller
         $article->title = $request->title;
         $article->body = $body;
         $article->save();
-        Log::debug('end to regist article');
+        Log::debug("end to {$name} article");
 
         if ($images) {
-            Log::debug('start to regist article_image');
+            Log::debug('start to register article_image');
             $article_id = $article->id;
             foreach ($images as $image) {
                 ArticleImage::create([
@@ -63,14 +78,9 @@ class ArticlesController extends Controller
                     'image_path' => $image,
                 ]);
             }
-            Log::debug('end to regist article_image');
+            Log::debug('end to register article_image');
         }
-
-        return response()->json([
-            'Id' => $article->id,
-        ]);
     }
-
 
     private function processBodyAndImages($body, $images = [])
     {
@@ -120,11 +130,16 @@ class ArticlesController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array $data
      */
     public function edit($id)
     {
-        return Article::find($id);
+        $data = [];
+        $article = Article::find($id);
+        $data['title'] = $article->title;
+        $data['body'] = $article->body;
+        $data['images'] = [];
+        return $data;
     }
 
     /**
@@ -137,9 +152,7 @@ class ArticlesController extends Controller
     public function update(ArticleRequest $request, $id)
     {
         $article = Article::find($id);
-        $article->title = $request->title;
-        $article->body = $request->body;
-        $article->save();
+        $this->registerArticleAndImage($article, $request, 'update');
         return response()->json([
             'Id' => $article->id,
         ]);
