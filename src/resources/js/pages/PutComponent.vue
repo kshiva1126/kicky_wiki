@@ -17,7 +17,6 @@ import { Editor } from "@toast-ui/vue-editor";
 import util from '../utils/util'
 
 export default {
-  mixins: [util],
   components: {
     editor: Editor
   },
