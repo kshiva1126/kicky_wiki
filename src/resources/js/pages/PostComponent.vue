@@ -14,6 +14,7 @@ import "tui-editor/dist/tui-editor.css";
 import "tui-editor/dist/tui-editor-contents.css";
 import "codemirror/lib/codemirror.css";
 import { Editor } from "@toast-ui/vue-editor";
+import util from '../utils/util'
 
 export default {
   components: {
@@ -38,13 +39,13 @@ export default {
               }
             };
 
-            await axios.post('api/articles/image-upload', formData, config)
+            await axios.post('/api/articles/image-upload', formData, config)
               .then(response => {
                 callback(response.data.fileName, '');
                 this.article.images.push(response.data.fileName);
               })
               .catch(err => {
-                alert('画像アップロードに失敗しました。', err);
+                alert(err);
               });
           },
         }

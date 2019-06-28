@@ -2,7 +2,7 @@
   <div class="container">
     <div class="article__form">
       <input type="text" class="article__title" v-model="article.title">
-      <editor v-model="article.body" :height="height"/>
+      <editor v-model="article.body" :height="height" :options="editorOptions"/>
     </div>
 
     <div class="article__button" @click="submit()">編集する</div>
@@ -14,6 +14,7 @@ import "tui-editor/dist/tui-editor.css";
 import "tui-editor/dist/tui-editor-contents.css";
 import "codemirror/lib/codemirror.css";
 import { Editor } from "@toast-ui/vue-editor";
+import util from '../utils/util'
 
 export default {
   components: {
@@ -23,9 +24,32 @@ export default {
     return {
       article: {
         title: "",
-        body: ""
+        body: "",
+        images: [],
       },
-      height: "900px"
+      height: "900px",
+      editorOptions: {
+        hooks: {
+          addImageBlobHook: async (blob, callback) => {
+            const formData = new FormData();
+            formData.append('image', blob);
+            const config = {
+              header: {
+                'Content-Type': 'multipart/form-data'
+              }
+            };
+
+            await axios.post('/api/articles/image-upload', formData, config)
+              .then(response => {
+                callback(response.data.fileName, '');
+                this.article.images.push(response.data.fileName);
+              })
+              .catch(err => {
+                alert(err);
+              });
+          },
+        }
+      }
     };
   },
   created() {
