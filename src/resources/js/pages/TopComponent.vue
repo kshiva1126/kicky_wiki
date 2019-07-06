@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="form"></div>
-
+    <div>
+      <input type="text" class="freeword" v-model="freeword" placeholder="freeword">
+      <button class="search" @click="search()">検索する</button>
+    </div>
     <div class="grid">
       <div v-for="(article, index) in articles" class="grid__item grid__item--4" :key="index">
         <router-link :to="detailLink(article.id)">
@@ -19,25 +22,48 @@
 export default {
   data() {
     return {
+      freeword: "",
       articles: []
     };
   },
   created() {
-    const response = axios.get(`/api/articles`).then(res => {
-      this.articles.push(...res.data);
-
-      console.log(this.articles);
-    });
+    this.get();
   },
   methods: {
     detailLink(id) {
       return `/detail/${id}`;
+    },
+    async get() {
+      await axios.get(`/api/articles`).then(res => {
+        this.articles.push(...res.data);
+      });
+    },
+    async search() {
+      if (this.freeword) {
+        await axios.get(`/api/articles/search/${this.freeword}`)
+          .then(res => {
+            this.articles = [];
+            this.articles.push(...res.data);
+          })
+          .catch(err => {
+            alert('検索に失敗しました', err);
+          })
+      } else {
+        this.articles = [];
+        await this.get();
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.freeword {
+  position: relative;
+  display: block;
+  width: 300px;
+}
+
 .article__card {
   border-bottom: 1px solid #c0c0c0;
   // border: 1px solid;
