@@ -28,4 +28,6 @@ Route::group(['prefix' => 'articles'], function () {
     Route::get('/search/{freeword}', 'Api\ArticlesController@search');
     // 画像アップロード
     Route::post('/image-upload', 'Api\ArticlesController@upload');
+    // 記事削除
+    Route::delete('/{id}', 'Api\ArticlesController@destroy');
 });
