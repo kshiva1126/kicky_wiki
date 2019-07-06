@@ -7,6 +7,7 @@
     </div>
     <div class="grid">
       <div v-for="(article, index) in articles" class="grid__item grid__item--4" :key="index">
+        <button @click="deleteArticle(article.id)">X</button>
         <router-link :to="detailLink(article.id)">
           <div class="article__card" :class="{ 'border--left': index % 3 !== 0}">
             <div class="article__title">{{ article.title }}</div>
@@ -51,6 +52,19 @@ export default {
       } else {
         this.articles = [];
         await this.get();
+      }
+    },
+    async deleteArticle(id) {
+      const result = confirm("こちらの記事を削除しますか?");
+      if (result) {
+        await axios.delete(`/api/articles/${id}`)
+          .then(res => {
+            this.articles = [];
+            this.get();
+          })
+          .catch(err => {
+            alert('記事削除に失敗しました', err)
+          })
       }
     }
   }
