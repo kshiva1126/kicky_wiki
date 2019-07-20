@@ -1,6 +1,6 @@
 <template>
   <nav class="nav">
-    <router-link class="nav__brand" :to="'/'">Kicky-WIKI</router-link>
+    <a class="nav__brand" href="/">Kicky-WIKI</a>
     <div class="nav__menu">
       <div class="nav__item">
         <router-link :to="'/post'">投稿する</router-link>
