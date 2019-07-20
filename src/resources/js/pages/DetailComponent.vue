@@ -2,7 +2,7 @@
   <div class="container">
     <div class="article">
       <h1 class="article__title border-bottom">{{ article.title }}</h1>
-      <div class="article__body" v-html="article.body"></div>
+      <markdown-it-vue class="article__body" :content="article.body"></markdown-it-vue>
       <div class="toEdit">
         <router-link :to="editLink()">
           <div>編集する</div>
@@ -14,10 +14,16 @@
 </template>
 
 <script>
+import MarkdownItVue from 'markdown-it-vue';
+import 'markdown-it-vue/dist/markdown-it-vue.css';
+
 export default {
+  components: {
+    MarkdownItVue
+  },
   data() {
     return {
-      article: ""
+      article: "",
     };
   },
   created() {
