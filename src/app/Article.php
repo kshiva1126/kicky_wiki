@@ -9,7 +9,7 @@ use cebe\markdown\GithubMarkdown as Markdown;
 class Article extends Model
 {
     /**
-     * 一覧表示用に内容を100文字で丸め、Markdownにparseした上で
+     * 一覧表示用に内容を200文字で丸め、Markdownにparseした上で
      * HTML および PHP タグを取り除いた文字列を返す
      */
     public function getShortBodyAttribute()

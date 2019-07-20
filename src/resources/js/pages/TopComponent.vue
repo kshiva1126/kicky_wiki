@@ -1,13 +1,17 @@
 <template>
   <div class="container">
-    <div class="form"></div>
     <div>
-      <input type="text" class="freeword" v-model="freeword" placeholder="freeword">
-      <button class="search" @click="search()">検索する</button>
+      <b-input-group prepend="freewords" class="mt-3">
+        <b-form-input class="freeword" v-model="freeword"></b-form-input>
+        <b-input-group-append>
+          <b-button variant="outline-success" class="search" @click="search()">検索する</b-button>
+        </b-input-group-append>
+      </b-input-group>
     </div>
+    <br>
     <div>
       <div v-for="(article, index) in articles" :key="index">
-        <button class="btn btn-primary" @click="deleteArticle(article.id)">X</button>
+        <b-button variant="warning" class="btn btn-primary" @click="deleteArticle(article.id)">X</b-button>
         <router-link :to="detailLink(article.id)">
           <b-card v-bind:title="article.title">
             <b-card-text>
@@ -15,6 +19,7 @@
             </b-card-text>
           </b-card>
         </router-link>
+        <br>
       </div>
     </div>
   </div>
@@ -73,12 +78,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.freeword {
-  position: relative;
-  display: block;
-  width: 300px;
-}
-
 .article__card {
   border-bottom: 1px solid #c0c0c0;
   // border: 1px solid;
