@@ -14,8 +14,8 @@ class Article extends Model
      */
     public function getShortBodyAttribute()
     {
-        // "..."も含めて100文字で丸める
-        $short_body = mb_strimwidth($this->body, 0, 100, '...', 'UTF-8');
+        // "..."も含めて200文字で丸める
+        $short_body = mb_strimwidth($this->body, 0, 200, '...', 'UTF-8');
         // Markdownにparseする
         $short_body = $this->parse($short_body);
         // HTML および PHP タグを取り除く
