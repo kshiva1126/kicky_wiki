@@ -23,7 +23,10 @@ export default {
   },
   data() {
     return {
-      article: "",
+      article: {
+        title: "",
+        body: "",
+      }
     };
   },
   created() {
