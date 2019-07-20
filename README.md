@@ -27,5 +27,5 @@ access to http://localhost:3500/
 - クライアント
     - Vue.js
     - Sass
-    - BootStrap 4
-    - Font Awesome 5
+    - [BootStrap 4](https://getbootstrap.com/)
+    - [Font Awesome 5](https://fontawesome.com/)
