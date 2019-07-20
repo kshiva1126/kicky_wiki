@@ -36,7 +36,8 @@ export default {
 </script>
 <style lang="scss" scoped>
   .article__body {
-    margin-top: 5%
+    margin-top: 5%;
+    margin-bottom: 5%;
   }
   .toEdit {
     position: fixed;

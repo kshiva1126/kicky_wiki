@@ -8,7 +8,10 @@
     </div>
 
     <div class="edit">
-      <div class="article__button" @click="submit()">投稿する</div>
+      <div class="article__button" @click="submit()">
+        投稿する
+        <font-awesome-icon icon="paper-plane" />
+      </div>
     </div>
   </div>
 </template>

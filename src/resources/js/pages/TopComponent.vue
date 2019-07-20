@@ -1,17 +1,23 @@
 <template>
   <div class="container">
     <div>
-      <b-input-group prepend="freewords" class="mt-3">
+      <b-input-group prepend="検索キーワード" class="mt-3">
         <b-form-input class="freeword" v-model="freeword"></b-form-input>
         <b-input-group-append>
-          <b-button variant="outline-success" class="search" @click="search()">検索する</b-button>
+          <b-button variant="outline-success" class="search" @click="search()">
+            検索する
+            <font-awesome-icon icon="search" />
+          </b-button>
         </b-input-group-append>
       </b-input-group>
     </div>
     <br>
     <div>
       <div v-for="(article, index) in articles" :key="index">
-        <b-button variant="warning" class="btn btn-primary" @click="deleteArticle(article.id)">X</b-button>
+        <b-button variant="warning" class="btn btn-primary" @click="deleteArticle(article.id)">
+          削除
+          <font-awesome-icon icon="eraser" />
+        </b-button>
         <router-link :to="detailLink(article.id)">
           <b-card v-bind:title="article.title">
             <b-card-text>
