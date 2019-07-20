@@ -18,7 +18,7 @@
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^4.0.7",
-        "lodash": "^4.17.5",
+        "lodash": "^4.17.15",
         "popper.js": "^1.12",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
@@ -33,6 +33,7 @@
         "@fortawesome/vue-fontawesome": "^0.1.6",
         "bootstrap-vue": "^2.0.0-rc.25",
         "i": "^0.3.6",
+        "markdown-it-vue": "^1.0.9",
         "npm": "^6.10.1"
     }
 }

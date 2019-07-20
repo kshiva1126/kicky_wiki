@@ -122,7 +122,7 @@ class ArticlesController extends Controller
         $data = [];
         $data['id'] = $article->id;
         $data['title'] = $article->title;
-        $data['body'] = $article->mark_body;
+        $data['body'] = $article->body;
         return $data;
     }
 
