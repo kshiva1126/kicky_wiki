@@ -1,11 +1,18 @@
 <template>
   <div class="container">
     <div class="article__form">
-      <input type="text" class="article__title" v-model="article.title">
+      <b-input-group prepend="title" class="mt-3">
+        <b-form-input class="article__title" v-model="article.title"></b-form-input>
+      </b-input-group><br>
       <editor v-model="article.body" :height="height" :options="editorOptions"/>
     </div>
 
-    <div class="article__button" @click="submit()">編集する</div>
+    <div class="edit">
+      <div class="article__button" @click="submit()">
+        編集する
+        <font-awesome-icon icon="paper-plane" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -76,3 +83,22 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  .container {
+    margin-bottom: 5%
+  }
+  .edit {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    height: 3rem;
+    line-height: 3rem;
+    color: white;
+    text-align: center;
+    width: 100px;
+    cursor: pointer;
+    transition: all .3s ease;
+    background: black;
+  }
+</style>
