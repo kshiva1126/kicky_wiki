@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "@toast-ui/vue-editor": "^1.1.1",
-        "axios": "^0.18",
+        "axios": "^0.21",
         "bootstrap": "^4.1.0",
         "browser-sync": "^2.26.7",
         "browser-sync-webpack-plugin": "2.0.1",
